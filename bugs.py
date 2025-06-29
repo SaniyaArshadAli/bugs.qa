@@ -25,7 +25,14 @@ st.set_page_config(
 @st.cache_resource
 def init_genai_client():
     try:
-        client = genai.Client(api_key="AIzaSyARK4nJZRCOLUgoS8w5temtyNtidK24H8E")
+        # Get API key from environment variables (Streamlit Secrets)
+        api_key = os.environ.get('AIzaSyARK4nJZRCOLUgoS8w5temtyNtidK24H8E')
+        
+        if not api_key:
+            st.error("Google API key not found. Please set the GOOGLE_API_KEY in your environment variables or Streamlit secrets.")
+            return None
+            
+        client = genai.Client(api_key=api_key)
         return client
     except Exception as e:
         st.error(f"Failed to initialize AI client: {str(e)}")
