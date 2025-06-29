@@ -3,7 +3,8 @@ import base64
 import time
 import json
 from datetime import datetime
-from google import genai
+import google.generativeai as genai
+import os
 import io
 from PIL import Image, ImageDraw, ImageFont
 import pandas as pd
@@ -25,15 +26,16 @@ st.set_page_config(
 @st.cache_resource
 def init_genai_client():
     try:
-        # Get API key from environment variables (Streamlit Secrets)
+        # Get API key from environment variables
         api_key = os.environ.get('GOOGLE_API_KEY')
         
         if not api_key:
             st.error("Google API key not found. Please set the GOOGLE_API_KEY in your environment variables or Streamlit secrets.")
             return None
             
-        client = genai.Client(api_key=api_key)
-        return client
+        # Configure the client
+        genai.configure(api_key=api_key)
+        return genai
     except Exception as e:
         st.error(f"Failed to initialize AI client: {str(e)}")
         return None
