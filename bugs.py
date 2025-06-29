@@ -26,7 +26,7 @@ st.set_page_config(
 def init_genai_client():
     try:
         # Get API key from environment variables (Streamlit Secrets)
-        api_key = os.environ.get('AIzaSyARK4nJZRCOLUgoS8w5temtyNtidK24H8E')
+        api_key = os.environ.get('GOOGLE_API_KEY')
         
         if not api_key:
             st.error("Google API key not found. Please set the GOOGLE_API_KEY in your environment variables or Streamlit secrets.")
